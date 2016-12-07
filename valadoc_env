@@ -1,0 +1,2 @@
+BASEDIR=src config
+PKGS=gobject-plugin-iface-0 gobject-plugin-loader-0 laview-latex-struct-0 gee-0.8 gmodule-2.0 gio-2.0 posix

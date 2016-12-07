@@ -1,0 +1,47 @@
+<schemalist>
+    <schema id="ws.backbone.laview.core-@MAJOR@" path="/ws/backbone/laview/core-@MAJOR@/" gettext-domain="laview-core-@MAJOR@">
+
+        <key name="templates" type="as">
+            <default>[]</default>
+            <summary>Templates</summary>
+            <description>Loaded templates.</description>
+        </key>
+
+        <key name="lyx-path" type="s">
+            <default>"lyx"</default>
+            <summary>Path to LyX binary (win32 only).</summary>
+            <description>Microsoft doesn't follow any file hierarchy standarts.</description>
+        </key>
+
+        <key name="latexmk-pl-path" type="s">
+            <default>"latexmk"</default>
+            <summary>Path to latexmk script (win32 only).</summary>
+            <description>Microsoft doesn't follow any file hierarchy standarts.</description>
+        </key>
+
+        <key name="perl-path" type="s">
+            <default>"perl"</default>
+            <summary>Path to Perl (win32 only).</summary>
+            <description>Microsoft doesn't follow any file hierarchy standarts.</description>
+        </key>
+
+        <key name="greeting" type="s">
+            <default l10n="messages">"Hello, earthlings"</default>
+            <summary>A greeting</summary>
+            <description>Greeting of the invading martians</description>
+        </key>
+
+        <key name="bottles-of-beer" type="i">
+            <default>99</default>
+            <summary>Bottles of beer</summary>
+            <description>Number of bottles of beer on the wall</description>
+        </key>
+
+        <key name="lighting" type="b">
+            <default>false</default>
+            <summary>Is the light switched on?</summary>
+            <description>State of an imaginary light switch.</description>
+        </key>
+
+    </schema>
+</schemalist>

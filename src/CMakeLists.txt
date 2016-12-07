@@ -1,0 +1,9 @@
+IF (WIN32)
+  SET (LibValaOpts -D WINDOWS)
+ELSE (WIN32)
+  SET (LibValaOpts -D UNIX)
+ENDIF (WIN32)
+
+ADD_SUBDIRECTORY (conv)
+ADD_SUBDIRECTORY (core)
+ADD_SUBDIRECTORY (core-iface)
