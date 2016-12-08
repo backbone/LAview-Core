@@ -7,7 +7,7 @@ namespace LAview.Core {
 	 */
 	public class Core : Object, IHost, IHostCore {
 
-		/**                         **
+		/*                          **
 		 * --- I N T E R F A C E --- *
 		 */                       /**/
 

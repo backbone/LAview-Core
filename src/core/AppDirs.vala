@@ -1,4 +1,6 @@
-extern void get_library_path (string so_path, void *addr);
+namespace Get {
+	extern void library_path (string so_path, void *addr);
+}
 
 namespace LAview.Core {
 
@@ -16,7 +18,7 @@ namespace LAview.Core {
 
 		public static void init () throws FileError {
 			char _so_path[256];
-			get_library_path ((string)_so_path, (void*)init);
+			Get.library_path ((string)_so_path, (void*)init);
 			so_path = File.new_for_path ((string)_so_path);
 			exec_dir = so_path.get_parent ();
 			common_dir = exec_dir.get_parent ();
