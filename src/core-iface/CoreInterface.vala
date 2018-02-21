@@ -19,6 +19,7 @@ namespace LAview.Core {
 
 		/**
 		 * Get data object.
+		 * @param name data object name.
 		 */
 		public abstract PluginData get_data_object (string name);
 	}
@@ -61,6 +62,9 @@ namespace LAview.Core {
 
 		/**
 		 * Compose the object.
+		 * @param parent parent Object/Window.
+		 * @param answers answers values.
+		 * @throws Error any compose error.
 		 */
 		public abstract bool compose (Object parent, Gee.HashMap<string, AnswerValue> answers) throws Error;
 
@@ -74,31 +78,58 @@ namespace LAview.Core {
 	 * Request Answer Value.
 	 */
 	public abstract class AnswerValue : Object {
+		/**
+		 * Constructs a new ``AnswerValue``.
+		 */
+		public AnswerValue () { }
 	}
 
 	/**
-	 * String.
+	 * String Answer.
 	 */
 	public class AnswerString : AnswerValue {
+		/**
+		 * String value.
+		 */
 		public string value;
 
+		/**
+		 * Constructs a new ``AnswerString``.
+		 * @param value string value.
+		 */
 		public AnswerString (string value = "") {
 			this.value = value;
 		}
 	}
 
 	/**
-	 * 1D Array.
+	 * 1D Array Answer.
 	 */
 	public class AnswerArray1D : AnswerValue {
+		/**
+		 * Array value.
+		 */
 		public string[] value;
+
+		/**
+		 * Constructs a new ``AnswerArray1D``.
+		 */
+		public AnswerArray1D () { }
 	}
 
 	/**
-	 * 2D Array;
+	 * 2D Array Answer;
 	 */
 	public class AnswerArray2D : AnswerValue {
+		/**
+		 * Array value.
+		 */
 		public string[,] value;
+
+		/**
+		 * Constructs a new ``AnswerArray1D``.
+		 */
+		public AnswerArray2D () { }
 	}
 
 	/**

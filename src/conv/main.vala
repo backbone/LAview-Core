@@ -16,20 +16,41 @@ namespace LAview {
 		 * File format converter (lyx, tex, pdf).
 		 */
 		public class Converter : Object {
+			/**
+			 * Path to the LyX executable.
+			 */
 	        public string lyx_path { get; construct; }
+
+			/**
+			 * Path to latexmk.pl executable.
+			 */
 	        public string latexmk_pl_path { get; construct; }
+
+			/**
+			 * Path to the Perl executable.
+			 */
 	        public string perl_path { get; construct; }
 
 			/**
 			 * Constructs a new ``Converter``.
 			 */
 			public Converter () { Object(lyx_path: "lyx", latexmk_pl_path: "latexmk", perl_path: "perl"); }
+
+			/**
+			 * Constructs a new ``Converter``.
+			 * @param lyx_path path to the LyX executable.
+			 * @param latexmk_pl_path path to latexmk.pl executable.
+			 * @param perl_path path to Perl executable.
+			 */
 			public Converter.new_with_paths (string lyx_path, string latexmk_pl_path, string perl_path) {
 				Object(lyx_path: lyx_path, latexmk_pl_path: latexmk_pl_path, perl_path: perl_path);
 			}
 
 			/**
 			 * LyX->TeX conversion.
+			 * @param lyx_file path to LyX source.
+			 * @param tex_path path to LaTeX output.
+			 * @throws Error any conversion error.
 			 */
 			public Subprocess lyx2tex (string lyx_file, string tex_path) throws Error {
 			    /* check paths */
@@ -46,6 +67,9 @@ namespace LAview {
 
 			/**
 			 * TeX->LyX conversion.
+			 * @param tex_file path to LaTeX source.
+			 * @param lyx_file_path path to LyX output.
+			 * @throws Error any conversion error.
 			 */
 			public Subprocess tex2lyx (string tex_file, string lyx_file_path) throws Error {
 			    /* check paths */
@@ -66,6 +90,9 @@ namespace LAview {
 
 			/**
 			 * LyX->PDF conversion.
+			 * @param lyx_file path to LyX source.
+			 * @param pdf_path path to PDF output.
+			 * @throws Error any conversion error.
 			 */
 			public Subprocess lyx2pdf (string lyx_file, string pdf_path) throws Error {
 			    /* check paths */
@@ -82,6 +109,9 @@ namespace LAview {
 
 			/**
 			 * TeX->PDF conversion.
+			 * @param tex_file path to LaTeX source.
+			 * @param pdf_path path to PDF output.
+			 * @throws Error any conversion error.
 			 */
 			public Subprocess tex2pdf (string tex_file, string pdf_path) throws Error {
 			    /* check paths */

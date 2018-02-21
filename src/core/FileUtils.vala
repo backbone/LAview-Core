@@ -1,3 +1,8 @@
+/**
+ * LaTeX view.
+ *
+ * Public system of data view in the LaTeX format.
+ */
 namespace LAview.Core {
 	void rm_rf (File directory) throws Error {
 		var children = directory.enumerate_children ("standard::*",

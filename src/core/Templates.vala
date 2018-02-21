@@ -1,5 +1,10 @@
 using GObject, Plugins;
 
+/**
+ * LaTeX view.
+ *
+ * Public system of data view in the LaTeX format.
+ */
 namespace LAview.Core {
 
 	/**

@@ -1,5 +1,10 @@
 using GObject, Plugins;
 
+/**
+ * LaTeX view.
+ *
+ * Public system of data view in the LaTeX format.
+ */
 namespace LAview.Core {
 
 	/**
@@ -13,16 +18,25 @@ namespace LAview.Core {
 
 		AppSettings settings;
 
+		/**
+		 * Path to LyX source.
+		 */
 		public string lyx_path {
 			get { return settings.lyx_path; }
 			set { settings.lyx_path = value; }
 		}
 
+		/**
+		 * Path to latexmk.pl executable.
+		 */
 		public string latexmk_pl_path {
 			get { return settings.latexmk_pl_path; }
 			set { settings.latexmk_pl_path = value; }
 		}
 
+		/**
+		 * Path to Perl executable.
+		 */
 		public string perl_path {
 			get { return settings.perl_path; }
 			set { settings.perl_path = value; }
@@ -38,11 +52,19 @@ namespace LAview.Core {
 			set { settings.object_path = value; }
 		}
 
+		/**
+		 * Data plugins.
+		 */
 		public Gee.HashMap<Type, PluginData> data_plugins = new Gee.HashMap<Type, PluginData>();
+
+		/**
+		 * Object plugins.
+		 */
 		public Gee.HashMap<Type, PluginObject> object_plugins = new Gee.HashMap<Type, PluginObject>();
 
 		/**
 		 * Load Data Modules.
+		 * @param dir_path directory with data modules.
 		 */
 		public void load_data_modules (string dir_path) {
 			Gee.ArrayList<Plugins.Module> tmp_modules = null;
@@ -59,6 +81,7 @@ namespace LAview.Core {
 
 		/**
 		 * Load Protocol Objects Modules.
+		 * @param dir_path directory with object modules.
 		 */
 		public void load_object_modules (string dir_path) {
 			Gee.ArrayList<Plugins.Module> tmp_modules = null;
@@ -81,6 +104,10 @@ namespace LAview.Core {
 			GObject.Plugins.unload_modules (object_modules);
 		}
 
+		/**
+		 * Constructs a new ``Core``.
+		 * @throws Error any error.
+		 */
 		public Core () throws Error {
 
 			/* Initialization */
@@ -100,10 +127,16 @@ namespace LAview.Core {
 			clear_cache ();
 		}
 
+		/**
+		 * Gets cache directory.
+		 */
 		public string get_cache_dir () {
 			return AppDirs.cache_dir;
 		}
 
+		/**
+		 * Gets templates human readable names.
+		 */
 		public string[] get_templates_readable_names () {
 			string[] names = {};
 			foreach (var t in templates)
@@ -111,10 +144,17 @@ namespace LAview.Core {
 			return names;
 		}
 
+		/**
+		 * Gets template path by its index.
+		 */
 		public string get_template_path_by_index (int index) {
 			return templates[index].get_path ();
 		}
 
+		/**
+		 * Adds a new template.
+		 * @param path new template path.
+		 */
 		public void add_template (string path) {
 			var file = File.new_for_path (path);
 			if (!file.query_exists() || file.query_file_type(FileQueryInfoFlags.NONE) != FileType.REGULAR)
@@ -131,12 +171,20 @@ namespace LAview.Core {
 			save_templates_list ();
 		}
 
+		/**
+		 * Removes template by index.
+		 * @param index template index.
+		 */
 		public void remove_template (int index) {
 			if (index < templates.size)
 				templates.remove_at (index);
 			save_templates_list ();
 		}
 
+		/**
+		 * Gets objects list.
+		 * @param template_index template index.
+		 */
 		public string[] get_objects_list (int template_index) throws Error {
 			if (template_index == last_template_index) return objects_list;
 			last_template_index = template_index;
@@ -186,6 +234,11 @@ namespace LAview.Core {
 			return objects_list;
 		}
 
+		/**
+		 * Compose/Construct the object.
+		 * @param parent parent window.
+		 * @param object_index object index.
+		 */
 		public bool compose_object (Object parent, int object_index) throws Error {
 			var cnt = object_index;
 			foreach (var req in requests.entries)
@@ -201,6 +254,10 @@ namespace LAview.Core {
 			return composed_objects[object_index];;
 		}
 
+		/**
+		 * Generates PDF document.
+		 * @throws Error any print error.
+		 */
 		public Subprocess print_document () throws Error {
 			foreach (var c in composed_objects)
 				if (c == false)
@@ -210,6 +267,10 @@ namespace LAview.Core {
 			return converter.tex2pdf (doc_tex_path(), doc_pdf_path());
 		}
 
+		/**
+		 * Gets out generated LyX document file path.
+		 * @throws Error any error.
+		 */
 		public string get_lyx_file_path () throws Error {
 			foreach (var c in composed_objects)
 				if (c == false)
@@ -217,6 +278,10 @@ namespace LAview.Core {
 			return generate_document_lyx();
 		}
 
+		/**
+		 * Gets out generated PDF document file path.
+		 * @throws Error any error.
+		 */
 		public string get_pdf_file_path () throws Error {
 			var pdf_path = Path.build_path (Path.DIR_SEPARATOR_S, AppDirs.cache_dir, "document.pdf");
 			if (!File.new_for_path(pdf_path).query_exists())
@@ -224,6 +289,10 @@ namespace LAview.Core {
 			return pdf_path;
 		}
 
+		/**
+		 * Gets data object by its name.
+		 * @param name data object name.
+		 */
 		public PluginData get_data_object (string name) {
 			return data_plugins2[name];
 		}
