@@ -36,7 +36,7 @@ namespace LAview {
 				if (!File.new_for_path(lyx_file).query_exists())
 					throw new IOError.NOT_FOUND(_("File ")+lyx_file+_(" not found"));
 				if (!File.new_for_path(tex_path).get_parent().query_exists())
-					throw new IOError.NOT_FOUND(_("Target directory for ")+tex_path+_(" does not exists"));
+					throw new IOError.NOT_FOUND(_("Target directory for ")+tex_path+_(" does not exist"));
 				return (new SubprocessLauncher(  SubprocessFlags.STDIN_PIPE
 				                               | SubprocessFlags.STDOUT_PIPE
 				                               | SubprocessFlags.STDERR_PIPE))
@@ -52,7 +52,7 @@ namespace LAview {
 				if (!File.new_for_path(tex_file).query_exists())
 					throw new IOError.NOT_FOUND(_("File ")+tex_file+_(" not found"));
 				if (!File.new_for_path(lyx_file_path).get_parent().query_exists())
-					throw new IOError.NOT_FOUND(_("Target directory for ")+lyx_file_path+_(" does not exists"));
+					throw new IOError.NOT_FOUND(_("Target directory for ")+lyx_file_path+_(" does not exist"));
 				var last_index_of = lyx_path.last_index_of ("lyx");
 				if (last_index_of == -1) throw new IOError.NOT_FOUND(_("Cann't find tex2lyx command"));
 				var tex2lyx_path = lyx_path.substring(0, last_index_of)
@@ -71,7 +71,7 @@ namespace LAview {
 				if (!File.new_for_path(lyx_file).query_exists())
 					throw new IOError.NOT_FOUND(_("File ")+lyx_file+_(" not found"));
 				if (!File.new_for_path(pdf_path).get_parent().query_exists())
-					throw new IOError.NOT_FOUND(_("Target directory for ")+pdf_path+_(" does not exists"));
+					throw new IOError.NOT_FOUND(_("Target directory for ")+pdf_path+_(" does not exist"));
 				return (new SubprocessLauncher(  SubprocessFlags.STDIN_PIPE
 				                               | SubprocessFlags.STDOUT_PIPE
 				                               | SubprocessFlags.STDERR_PIPE))
@@ -87,7 +87,7 @@ namespace LAview {
 				if (!File.new_for_path(tex_file).query_exists())
 					throw new IOError.NOT_FOUND(_("File ")+tex_file+_(" not found"));
 				if (!File.new_for_path(pdf_path).get_parent().query_exists())
-					throw new IOError.NOT_FOUND(_("Target directory for ")+pdf_path+_(" does not exists"));
+					throw new IOError.NOT_FOUND(_("Target directory for ")+pdf_path+_(" does not exist"));
 
 				var pdf_dir = File.new_for_path(pdf_path).get_parent().get_path();
 				var pdf_name = File.new_for_path(pdf_path).get_basename();

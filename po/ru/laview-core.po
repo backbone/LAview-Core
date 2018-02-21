@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: laview-core\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-23 22:28+0300\n"
+"POT-Creation-Date: 2018-02-21 13:10+0300\n"
 "PO-Revision-Date: 2015-08-30 12:46+0300\n"
 "Last-Translator:  <backbone@backbone.ws>\n"
 "Language-Team: Russian\n"
@@ -35,7 +35,7 @@ msgid "Microsoft doesn't follow any file hierarchy standarts."
 msgstr "Микрософт не следует каким-либо стандартам файловой иерархии."
 
 #: config/ws.backbone.laview.core.gschema.xml.h:5
-msgid "Path to latexmk.pl script (win32 only)."
+msgid "Path to latexmk script (win32 only)."
 msgstr "Путь к скрипту latexmk.pl (только win32)."
 
 #: config/ws.backbone.laview.core.gschema.xml.h:6
@@ -70,46 +70,50 @@ msgstr ""
 msgid "State of an imaginary light switch."
 msgstr ""
 
-#: src/conv/main.vala:37 src/conv/main.vala:52 src/conv/main.vala:71
-#: src/conv/main.vala:86 src/core/Core.vala:220
+#: src/conv/main.vala:37 src/conv/main.vala:53 src/conv/main.vala:72
+#: src/conv/main.vala:88 src/core/Core.vala:227
 msgid " not found"
 msgstr " не найден"
 
-#: src/conv/main.vala:37 src/conv/main.vala:52 src/conv/main.vala:71
-#: src/conv/main.vala:86
+#: src/conv/main.vala:37 src/conv/main.vala:53 src/conv/main.vala:72
+#: src/conv/main.vala:88
 msgid "File "
 msgstr "Файл "
 
-#: src/conv/main.vala:39 src/conv/main.vala:54 src/conv/main.vala:73
-#: src/conv/main.vala:88
-msgid " does not exists"
+#: src/conv/main.vala:39 src/conv/main.vala:55 src/conv/main.vala:74
+#: src/conv/main.vala:90
+msgid " does not exist"
 msgstr " отсутствует"
 
-#: src/conv/main.vala:39 src/conv/main.vala:54 src/conv/main.vala:73
-#: src/conv/main.vala:88
+#: src/conv/main.vala:39 src/conv/main.vala:55 src/conv/main.vala:74
+#: src/conv/main.vala:90
 msgid "Target directory for "
 msgstr "Целевая директория для "
 
-#: src/conv/main.vala:56
+#: src/conv/main.vala:57
 msgid "Cann't find tex2lyx command"
 msgstr "Не удаётся найти команду tex2lyx"
 
-#: src/core/Core.vala:161
+#: src/core/Core.vala:168
 msgid "Error running lyx2tex subprocess for "
 msgstr "Ошибка запуска подпроцесса lyx2tex для "
 
-#: src/core/Core.vala:204 src/core/Core.vala:213 src/core/Core.vala:533
+#: src/core/Core.vala:211 src/core/Core.vala:220 src/core/Core.vala:766
 msgid "Prepare document first."
 msgstr "Сначала подготовьте документ."
 
-#: src/core/Core.vala:220
+#: src/core/Core.vala:227
 msgid "PDF file "
 msgstr "PDF файл "
 
-#: src/core/Core.vala:544
+#: src/core/Core.vala:708 src/core/Core.vala:717
+msgid "IdxError"
+msgstr ""
+
+#: src/core/Core.vala:777
 msgid "Error running tex2lyx subprocess."
 msgstr "Ошибка запуска подпроцесса tex2lyx."
 
-#: src/core/Core.vala:546
+#: src/core/Core.vala:779
 msgid "Cann't create lyx document for editing."
 msgstr "Невозможно создать lyx документ для редактирования."
