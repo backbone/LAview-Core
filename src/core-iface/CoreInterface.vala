@@ -37,6 +37,11 @@ namespace LAview.Core {
 		 * Get Plugin readable name.
 		 */
 		public abstract string get_readable_name ();
+
+		/**
+		 * Open Preferences.
+		 */
+		public abstract void preferences ();
 	}
 
 	/**
@@ -58,6 +63,11 @@ namespace LAview.Core {
 		 * Compose the object.
 		 */
 		public abstract bool compose (Object parent, Gee.HashMap<string, AnswerValue> answers) throws Error;
+
+		/**
+		 * Open Preferences.
+		 */
+		public abstract void preferences ();
 	}
 
 	/**
