@@ -41,7 +41,7 @@ namespace LAview.Core {
 		/**
 		 * Open Preferences.
 		 */
-		public abstract void preferences ();
+		public abstract void preferences (Object parent);
 	}
 
 	/**
@@ -67,7 +67,7 @@ namespace LAview.Core {
 		/**
 		 * Open Preferences.
 		 */
-		public abstract void preferences ();
+		public abstract void preferences (Object parent);
 	}
 
 	/**
