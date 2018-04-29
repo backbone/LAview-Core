@@ -51,7 +51,7 @@ namespace LAview.Core {
 				if (!data_modules.contains(m)) {
 					data_modules.add(m);
 					var plugin_data = m.create_instance (this) as PluginData;
-					data_plugins[m.get_type()] = plugin_data;
+					data_plugins[m.get_plugin_type()] = plugin_data;
 					data_plugins2[plugin_data.get_name()] = plugin_data;
 				}
 			}
@@ -67,7 +67,7 @@ namespace LAview.Core {
 				if (!object_modules.contains(m)) {
 					object_modules.add(m);
 					var plugin_object = m.create_instance (this) as PluginObject;
-					object_plugins[m.get_type()] = plugin_object;
+					object_plugins[m.get_plugin_type()] = plugin_object;
 					object_plugins2[plugin_object.get_name()] = plugin_object;
 				}
 			}
