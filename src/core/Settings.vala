@@ -7,6 +7,8 @@ namespace LAview.Core {
 		string _latexmk_pl_path;
 		string _perl_path;
 		string[] _templates_strv;
+		string _data_path;
+		string _object_path;
 
 		public string lyx_path {
 			get { return _lyx_path; }
@@ -43,6 +45,24 @@ namespace LAview.Core {
 			}
 		}
 
+		public string data_path {
+			get { return _data_path; }
+			set {
+				if (settings != null) settings.set_string ("data-path", value);
+				_data_path = value;
+			}
+			default = "data";
+		}
+
+		public string object_path {
+			get { return _object_path; }
+			set {
+				if (settings != null) settings.set_string ("object-path", value);
+				_object_path = value;
+			}
+			default = "object";
+		}
+
 		public AppSettings () throws Error {
 			string schema_file = AppDirs.settings_dir+"/gschemas.compiled";
 			if (!File.new_for_path (schema_file).query_exists ())
@@ -67,7 +87,18 @@ namespace LAview.Core {
 			settings.changed["perl-path"].connect (() => {
 				_perl_path = settings.get_string("perl-path");
 			});
-
+			_templates_strv = settings.get_strv("templates");
+			settings.changed["templates"].connect (() => {
+				_templates_strv = settings.get_strv("templates");
+			});
+			_data_path = settings.get_string("data-path");
+			settings.changed["data-path"].connect (() => {
+				_data_path = settings.get_string("data-path");
+			});
+			_object_path = settings.get_string("object-path");
+			settings.changed["object-path"].connect (() => {
+				_object_path = settings.get_string("object-path");
+			});
 		}
 	}
 }
