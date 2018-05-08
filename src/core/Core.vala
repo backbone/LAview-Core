@@ -11,35 +11,25 @@ namespace LAview.Core {
 		 * --- I N T E R F A C E --- *
 		 */                       /**/
 
-		public string lyx_path {
-			get { return _lyx_path; }
-			set {
-				if (settings != null) settings.set_string ("lyx-path", value);
-				_lyx_path = value;
-			}
-			default = "lyx";
-		}
-
-		public string latexmk_pl_path {
-			get { return _latexmk_pl_path; }
-			set {
-				if (settings != null) settings.set_string ("latexmk-pl-path", value);
-				_latexmk_pl_path = value;
-			}
-			default = "latexmk";
-		}
-
-		public string perl_path {
-			get { return _perl_path; }
-			set {
-				if (settings != null) settings.set_string ("perl-path", value);
-				_perl_path = value;
-			}
-			default = "perl";
-		}
+		AppSettings settings;
 
 		public Gee.HashMap<Type, PluginData> data_plugins = new Gee.HashMap<Type, PluginData>();
 		public Gee.HashMap<Type, PluginObject> object_plugins = new Gee.HashMap<Type, PluginObject>();
+
+		public string lyx_path {
+			get { return settings.lyx_path; }
+			set { settings.lyx_path = value; }
+		}
+
+		public string latexmk_pl_path {
+			get { return settings.latexmk_pl_path; }
+			set { settings.latexmk_pl_path = value; }
+		}
+
+		public string perl_path {
+			get { return settings.perl_path; }
+			set { settings.perl_path = value; }
+		}
 
 		/**
 		 * Load Data Modules.
@@ -87,20 +77,8 @@ namespace LAview.Core {
 			AppDirs.init ();
 			load_data_modules (AppDirs.data_plugins_dir);
 			load_object_modules (AppDirs.object_plugins_dir);
-			settings_init ();
+			settings = new AppSettings();
 			load_templates_list ();
-			_lyx_path = settings.get_string("lyx-path");
-			settings.changed["lyx-path"].connect (() => {
-				_lyx_path = settings.get_string("lyx-path");
-			});
-			_latexmk_pl_path = settings.get_string("latexmk-pl-path");
-			settings.changed["latexmk-pl-path"].connect (() => {
-				_latexmk_pl_path = settings.get_string("latexmk-pl-path");
-			});
-			_perl_path = settings.get_string("perl-path");
-			settings.changed["perl-path"].connect (() => {
-				_perl_path = settings.get_string("perl-path");
-			});
 			clear_cache ();
 		}
 
@@ -151,7 +129,7 @@ namespace LAview.Core {
 			objects_list = { };
 			composed_objects = { };
 
-			var converter = new Conv.Converter.new_with_paths (_lyx_path, _latexmk_pl_path, _perl_path);
+			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
 			var t_path = Path.build_path (Path.DIR_SEPARATOR_S, AppDirs.cache_dir, "template.tex");
 			var lyx_file_path = templates[template_index].get_path();
 			try {
@@ -210,7 +188,7 @@ namespace LAview.Core {
 				if (c == false)
 					throw new IOError.FAILED (_("Prepare document first."));
 			generate_document_tex ();
-			var converter = new Conv.Converter.new_with_paths (_lyx_path, _latexmk_pl_path, _perl_path);
+			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
 			return converter.tex2pdf (doc_tex_path(), doc_pdf_path());
 		}
 
@@ -236,12 +214,8 @@ namespace LAview.Core {
 		 * --- I M P L E M E N T A T I O N --- *
 		 */                                 /**/
 
-		string _lyx_path;
-		string _latexmk_pl_path;
-		string _perl_path;
 		Gee.HashMap<string, unowned PluginData> data_plugins2 = new Gee.HashMap<string, unowned PluginData>();
 		Gee.HashMap<string, unowned PluginObject> object_plugins2 = new Gee.HashMap<string, unowned PluginObject>();
-		Settings settings;
 		TemplateList templates = new TemplateList ();
 		static Gee.ArrayList<Plugins.Module> data_modules = new Gee.ArrayList<Plugins.Module>();
 		static Gee.ArrayList<Plugins.Module> object_modules = new Gee.ArrayList<Plugins.Module>();
@@ -252,21 +226,8 @@ namespace LAview.Core {
 		bool[] composed_objects = {};
 		int last_template_index = -1;
 
-		void settings_init () throws Error {
-			string schema_file = AppDirs.settings_dir+"/gschemas.compiled";
-			if (!File.new_for_path (schema_file).query_exists ())
-				throw new IOError.NOT_FOUND ("File "+schema_file+" not found");
-			SettingsSchemaSource sss = new SettingsSchemaSource.from_directory (AppDirs.settings_dir, null, false);
-			string schema_name = "ws.backbone.laview.core-"+Config.VERSION_MAJOR.to_string();
-			SettingsSchema schema = sss.lookup (schema_name, false);
-			if (schema == null) {
-				throw new IOError.NOT_FOUND ("Schema "+schema_name+" not found in "+schema_file);
-			}
-			settings = new Settings.full (schema, null, null);
-		}
-
 		void load_templates_list () {
-			var templates_strv = settings.get_strv("templates");
+			var templates_strv = settings.templates;
 			templates.clear ();
 			foreach (var ts in templates_strv)
 				add_template (ts);
@@ -277,7 +238,7 @@ namespace LAview.Core {
 			foreach (var t in templates) {
 				templates_strv += (t.get_path ());
 			}
-			settings.set_strv("templates", templates_strv);
+			settings.templates = templates_strv;
 		}
 
 		~Core () {
@@ -772,7 +733,7 @@ namespace LAview.Core {
 		}
 		string generate_document_lyx () throws Error {
 			generate_document_tex ();
-			var converter = new Conv.Converter.new_with_paths (_lyx_path, _latexmk_pl_path, _perl_path);
+			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
 			var sp = converter.tex2lyx (doc_tex_path(), doc_lyx_path());
 			if (sp.wait_check() == false) throw new IOError.FAILED(_("Error running tex2lyx subprocess."));
 			if (!File.new_for_path(doc_lyx_path()).query_exists())
