@@ -25,6 +25,18 @@
             <description>Microsoft doesn't follow any file hierarchy standarts.</description>
         </key>
 
+        <key name="data-path" type="s">
+            <default>""</default>
+			<summary>Path to user's data plugins.</summary>
+            <description>Need for plugins developing/debugging.</description>
+        </key>
+
+        <key name="object-path" type="s">
+            <default>""</default>
+			<summary>Path to user's object plugins.</summary>
+            <description>Need for plugins developing/debugging.</description>
+        </key>
+
         <key name="greeting" type="s">
             <default l10n="messages">"Hello, earthlings"</default>
             <summary>A greeting</summary>

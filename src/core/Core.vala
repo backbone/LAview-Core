@@ -13,9 +13,6 @@ namespace LAview.Core {
 
 		AppSettings settings;
 
-		public Gee.HashMap<Type, PluginData> data_plugins = new Gee.HashMap<Type, PluginData>();
-		public Gee.HashMap<Type, PluginObject> object_plugins = new Gee.HashMap<Type, PluginObject>();
-
 		public string lyx_path {
 			get { return settings.lyx_path; }
 			set { settings.lyx_path = value; }
@@ -30,6 +27,19 @@ namespace LAview.Core {
 			get { return settings.perl_path; }
 			set { settings.perl_path = value; }
 		}
+
+		public string data_path {
+			get { return settings.data_path; }
+			set { settings.data_path = value; }
+		}
+
+		public string object_path {
+			get { return settings.object_path; }
+			set { settings.object_path = value; }
+		}
+
+		public Gee.HashMap<Type, PluginData> data_plugins = new Gee.HashMap<Type, PluginData>();
+		public Gee.HashMap<Type, PluginObject> object_plugins = new Gee.HashMap<Type, PluginObject>();
 
 		/**
 		 * Load Data Modules.
@@ -75,9 +85,17 @@ namespace LAview.Core {
 
 			/* Initialization */
 			AppDirs.init ();
+			settings = new AppSettings();
+
 			load_data_modules (AppDirs.data_plugins_dir);
 			load_object_modules (AppDirs.object_plugins_dir);
-			settings = new AppSettings();
+
+			if (File.new_for_path (data_path).query_exists())
+				load_data_modules (data_path);
+
+			if (File.new_for_path (object_path).query_exists())
+				load_object_modules (object_path);
+
 			load_templates_list ();
 			clear_cache ();
 		}
@@ -129,7 +147,7 @@ namespace LAview.Core {
 			objects_list = { };
 			composed_objects = { };
 
-			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
+			var converter = new Conv.Converter.new_with_paths (lyx_path, latexmk_pl_path, perl_path);
 			var t_path = Path.build_path (Path.DIR_SEPARATOR_S, AppDirs.cache_dir, "template.tex");
 			var lyx_file_path = templates[template_index].get_path();
 			try {
@@ -188,7 +206,7 @@ namespace LAview.Core {
 				if (c == false)
 					throw new IOError.FAILED (_("Prepare document first."));
 			generate_document_tex ();
-			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
+			var converter = new Conv.Converter.new_with_paths (lyx_path, latexmk_pl_path, perl_path);
 			return converter.tex2pdf (doc_tex_path(), doc_pdf_path());
 		}
 
@@ -733,7 +751,7 @@ namespace LAview.Core {
 		}
 		string generate_document_lyx () throws Error {
 			generate_document_tex ();
-			var converter = new Conv.Converter.new_with_paths (settings.lyx_path, settings.latexmk_pl_path, settings.perl_path);
+			var converter = new Conv.Converter.new_with_paths (lyx_path, latexmk_pl_path, perl_path);
 			var sp = converter.tex2lyx (doc_tex_path(), doc_lyx_path());
 			if (sp.wait_check() == false) throw new IOError.FAILED(_("Error running tex2lyx subprocess."));
 			if (!File.new_for_path(doc_lyx_path()).query_exists())
