@@ -40,8 +40,8 @@ namespace LAview.Core {
 		public string[] templates {
 			get { return _templates_strv; }
 			set {
-				if (settings != null) settings.set_strv("templates", _templates_strv);
 				_templates_strv = value;
+				if (settings != null) settings.set_strv("templates", _templates_strv);
 			}
 		}
 
