@@ -682,7 +682,7 @@ namespace LAview.Core {
 									get_relative_indexes(doc_stack, resize_info, out row_idx, out col_idx);
 									var max_idx = int.max(row_idx, col_idx);
 									if (max_idx < arr.value.length)
-										out_text = arr.value[max_idx];
+										out_text = plain_to_tex(arr.value[max_idx]);
 									else
 										out_text = _("IdxError");
 									break;
@@ -691,12 +691,12 @@ namespace LAview.Core {
 									var row_idx = 0, col_idx = 0;
 									get_relative_indexes(doc_stack, resize_info, out row_idx, out col_idx);
 									if (row_idx < arr.value.length[0] && col_idx < arr.value.length[1])
-										out_text = arr.value[row_idx, col_idx];
+										out_text = plain_to_tex(arr.value[row_idx, col_idx]);
 									else
 										out_text = _("IdxError");
 									break;
 								default: // Text/String
-									out_text = out_text.replace("{[}"+request+"{]}", (answer as AnswerString).value);
+									out_text = out_text.replace("{[}"+request+"{]}", plain_to_tex((answer as AnswerString).value));
 								break;
 							}
 							break;
