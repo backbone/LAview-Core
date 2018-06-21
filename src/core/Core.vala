@@ -90,10 +90,10 @@ namespace LAview.Core {
 			load_data_modules (AppDirs.data_plugins_dir);
 			load_object_modules (AppDirs.object_plugins_dir);
 
-			if (File.new_for_path (data_path).query_exists())
+			if (data_path != "" && File.new_for_path (data_path).query_exists())
 				load_data_modules (data_path);
 
-			if (File.new_for_path (object_path).query_exists())
+			if (object_path != "" && File.new_for_path (object_path).query_exists())
 				load_object_modules (object_path);
 
 			load_templates_list ();
