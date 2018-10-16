@@ -3,12 +3,12 @@ namespace LAview.Core {
 	public class AppSettings {
 		Settings settings;
 
-		string _lyx_path;
-		string _latexmk_pl_path;
-		string _perl_path;
+		string _lyx_path = "lyx";
+		string _latexmk_pl_path = "latexmk";
+		string _perl_path = "perl";
 		string[] _templates_strv;
-		string _data_path;
-		string _object_path;
+		string _data_path = "data";
+		string _object_path = "object";
 
 		public string lyx_path {
 			get { return _lyx_path; }
@@ -16,7 +16,6 @@ namespace LAview.Core {
 				if (settings != null) settings.set_string ("lyx-path", value);
 				_lyx_path = value;
 			}
-			default = "lyx";
 		}
 
 		public string latexmk_pl_path {
@@ -25,7 +24,6 @@ namespace LAview.Core {
 				if (settings != null) settings.set_string ("latexmk-pl-path", value);
 				_latexmk_pl_path = value;
 			}
-			default = "latexmk";
 		}
 
 		public string perl_path {
@@ -34,7 +32,6 @@ namespace LAview.Core {
 				if (settings != null) settings.set_string ("perl-path", value);
 				_perl_path = value;
 			}
-			default = "perl";
 		}
 
 		public string[] templates {
@@ -51,7 +48,6 @@ namespace LAview.Core {
 				if (settings != null) settings.set_string ("data-path", value);
 				_data_path = value;
 			}
-			default = "data";
 		}
 
 		public string object_path {
@@ -60,7 +56,6 @@ namespace LAview.Core {
 				if (settings != null) settings.set_string ("object-path", value);
 				_object_path = value;
 			}
-			default = "object";
 		}
 
 		public AppSettings () throws Error {
