@@ -53,10 +53,11 @@ namespace LAview {
 					throw new IOError.NOT_FOUND(_("File ")+tex_file+_(" not found"));
 				if (!File.new_for_path(lyx_file_path).get_parent().query_exists())
 					throw new IOError.NOT_FOUND(_("Target directory for ")+lyx_file_path+_(" does not exist"));
-				var last_index_of = lyx_path.last_index_of ("lyx");
-				if (last_index_of == -1) throw new IOError.NOT_FOUND(_("Cann't find tex2lyx command"));
-				var tex2lyx_path = lyx_path.substring(0, last_index_of)
-				                   + "tex2" + lyx_path.offset(last_index_of);
+				var tex2lyx_path = lyx_path;
+				var regex = new Regex("lyx$");
+				tex2lyx_path = regex.replace(tex2lyx_path, tex2lyx_path.length, 0, "tex2lyx");
+				regex = new Regex("[Ll][Yy][Xx].exe$");
+				tex2lyx_path = regex.replace(tex2lyx_path, tex2lyx_path.length, 0, "tex2lyx.exe");
 				return (new SubprocessLauncher(  SubprocessFlags.STDIN_PIPE
 				                               | SubprocessFlags.STDOUT_PIPE
 				                               | SubprocessFlags.STDERR_PIPE))
