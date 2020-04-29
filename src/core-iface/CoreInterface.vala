@@ -78,10 +78,6 @@ namespace LAview.Core {
 	 * Request Answer Value.
 	 */
 	public abstract class AnswerValue : Object {
-		/**
-		 * Constructs a new ``AnswerValue``.
-		 */
-		public AnswerValue () { }
 	}
 
 	/**

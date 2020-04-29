@@ -434,7 +434,9 @@ namespace LAview.Core {
 			}
 			switch (table.get_type().name()) {
 				case "LAviewTableTabular":
-					if (subtable_has_addcols ((table as Table.Tabular).table, col_index)) return true;
+					var t = table as Table.Tabular;
+					assert (t != null);
+					if (subtable_has_addcols (t.table, col_index)) return true;
 					break;
 				case "LAviewTableLongtable":
 					var longtable = table as Table.Longtable;
@@ -503,7 +505,9 @@ namespace LAview.Core {
 							try {
 								var regex = new Regex ("{\\[}[^][}{]*{\\]}");
 								MatchInfo match_info;
-								regex.match ((subdoc as Text).text, 0, out match_info);
+								var text = subdoc as Text;
+								assert (text != null);
+								regex.match (text.text, 0, out match_info);
 								while (match_info.matches ()) {
 									string object_suffix, object_cmd;
 									var word = match_info.fetch (0);
@@ -512,14 +516,18 @@ namespace LAview.Core {
 									if (plugin == null) { match_info.next(); continue; }
 									var req = requests[plugin.get_name() + object_suffix][object_cmd];
 									if (req is AnswerArray1D) {
+										var arr = req as AnswerArray1D;
+										assert (arr != null);
 										if (rowsvv_b[t,i] && ! colsv_b[j])
-											resize_info.rowsvv[t,i] = int.max(resize_info.rowsvv[t,i], (req as AnswerArray1D).value.length);
+											resize_info.rowsvv[t,i] = int.max(resize_info.rowsvv[t,i], arr.value.length);
 										else if (colsv_b[j] && !rowsvv_b[t,i])
-											resize_info.colsv[j] = int.max(resize_info.colsv[j], (req as AnswerArray1D).value.length);
+											resize_info.colsv[j] = int.max(resize_info.colsv[j], arr.value.length);
 									} else if (req is AnswerArray2D) {
+										var arr = req as AnswerArray2D;
+										assert (arr != null);
 										if (colsv_b[j] && rowsvv_b[t,i]) {
-											resize_info.rowsvv[t,i] = int.max(resize_info.rowsvv[t,i], (req as AnswerArray2D).value.length[0]);
-											resize_info.colsv[j] = int.max(resize_info.colsv[j], (req as AnswerArray2D).value.length[1]);
+											resize_info.rowsvv[t,i] = int.max(resize_info.rowsvv[t,i], arr.value.length[0]);
+											resize_info.colsv[j] = int.max(resize_info.colsv[j], arr.value.length[1]);
 										}
 									}
 									match_info.next();
@@ -637,7 +645,9 @@ namespace LAview.Core {
 				var tabular = doc as Table.Tabular;
 				var resize_info_new = new ResizeInfo();
 				if (stage == Stage.FILL) resize_table (tabular, resize_info_new);
-				doc_stack.push_tail ((doc as Table.Tabular).table);
+				var table = doc as Table.Tabular;
+				assert (table != null);
+				doc_stack.push_tail (table.table);
 				recursive_walk (doc_stack, requests, stage, resize_info_new);
 				doc_stack.pop_tail ();
 				if (stage == Stage.FILL && stack_len > 1)
@@ -666,7 +676,9 @@ namespace LAview.Core {
 					ret = split_table (doc_stack.peek_nth (stack_len - 2) as Glob, longtable, resize_info_new);
 				break;
 			case "LAviewTableSubtable":
-				doc_stack.push_tail ((doc as Table.Subtable).caption);
+				var table = doc as Table.Subtable;
+				assert (table != null);
+				doc_stack.push_tail (table.caption);
 				recursive_walk (doc_stack, requests, stage, resize_info);
 				doc_stack.pop_tail ();
 				foreach (var subdoc in doc as Table.Subtable) {
@@ -676,15 +688,19 @@ namespace LAview.Core {
 				}
 				break;
 			case "LAviewTableCell":
-				doc_stack.push_tail ((doc as Table.Cell).contents);
+				var cell = doc as Table.Cell;
+				assert (cell != null);
+				doc_stack.push_tail (cell.contents);
 				recursive_walk (doc_stack, requests, stage, resize_info);
 				doc_stack.pop_tail ();
 				break;
 			case "LAviewGraphics":
-					var path = (doc as Graphics).path;
-					string object_suffix, object_cmd;
-					var plugin = find_plugin (path, out object_suffix, out object_cmd);
-					if (plugin == null) break;
+				var graphics = doc as Graphics;
+				assert (graphics != null);
+				var path = graphics.path;
+				string object_suffix, object_cmd;
+				var plugin = find_plugin (path, out object_suffix, out object_cmd);
+				if (plugin == null) break;
 				switch (stage) {
 				case Stage.ANALYSE:
 					if (!requests.has_key(plugin.get_name() + object_suffix))
@@ -692,8 +708,9 @@ namespace LAview.Core {
 					requests[plugin.get_name() + object_suffix][object_cmd] = new AnswerString();
 					break;
 				case Stage.FILL:
-					(doc as Graphics).path =
-						(requests[plugin.get_name() + object_suffix][object_cmd] as AnswerString).value;
+					var answer = requests[plugin.get_name() + object_suffix][object_cmd] as AnswerString;
+					assert (answer != null);
+					graphics.path = answer.value;
 					break;
 				}
 				break;
@@ -703,8 +720,10 @@ namespace LAview.Core {
 					/* Replace requests with answers */
 					var regex = new Regex ("{\\[}[^][}{]*{\\]}");
 					MatchInfo match_info;
-					regex.match ((doc as Text).text, 0, out match_info);
-					var out_text = (doc as Text).text;
+					var text = doc as Text;
+					assert (text != null);
+					regex.match (text.text, 0, out match_info);
+					var out_text = text.text;
 
 					while (match_info.matches ()) {
 						var word = match_info.fetch (0);
@@ -765,7 +784,9 @@ namespace LAview.Core {
 										out_text = _("IdxError");
 									break;
 								default: // Text/String
-									out_text = out_text.replace("{[}"+request+"{]}", plain_to_tex((answer as AnswerString).value));
+									var a = answer as AnswerString;
+									assert (a != null);
+									out_text = out_text.replace("{[}"+request+"{]}", plain_to_tex(a.value));
 								break;
 							}
 							break;
@@ -782,7 +803,9 @@ namespace LAview.Core {
 						out_text = out_text.replace(word, "");
 					}
 
-					(doc as Text).text = out_text ;
+					var t = doc as Text;
+					assert (t != null);
+					t.text = out_text ;
 				} catch (RegexError e) {}
 				break;
 			default:

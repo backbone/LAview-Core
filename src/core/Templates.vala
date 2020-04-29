@@ -52,8 +52,13 @@ namespace LAview.Core {
 		}
 
 		public bool is_equal_to (ITemplate template) {
-			if (template is LyxTemplate)
-				return (template as LyxTemplate).file.get_path() == file.get_path();
+			if (template is LyxTemplate) {
+				var templ = template as LyxTemplate;
+				if (templ != null)
+					return templ.file.get_path() == file.get_path();
+				else
+					return false;
+			}
 
 			return false;
 		}
@@ -77,8 +82,13 @@ namespace LAview.Core {
 		}
 
 		public bool is_equal_to (ITemplate template) {
-			if (template is TexTemplate)
-				return (template as TexTemplate).file.get_path() == file.get_path();
+			if (template is TexTemplate) {
+				var templ = template as TexTemplate;
+				if (templ != null)
+					return templ.file.get_path() == file.get_path();
+				else
+					return false;
+			}
 
 			return false;
 		}

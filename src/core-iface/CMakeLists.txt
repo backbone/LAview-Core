@@ -1,6 +1,6 @@
 SET (LibName ${PROJECT_LOWERCASE_NAME}-iface)
 FILE (GLOB_RECURSE LibSources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CoreInterface.vala)
-SET (LibPackages gee-0.8 gmodule-2.0 gio-2.0 gobject-plugin-iface-0)
+SET (LibPackages posix gee-0.8 gmodule-2.0 gio-2.0 gobject-plugin-iface-0)
 SET (LibInstall ON)
 SET (LibExtraSources ${CMAKE_CURRENT_BINARY_DIR}/library_constructor.c)
 SET (LC_RELATIVE_PREFIX "..")
